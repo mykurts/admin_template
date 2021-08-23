@@ -2,6 +2,7 @@ class ApiController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   include DeviseTokenAuthTokenator
   include ClientCustomMessage
+  include JsonTemplates
 
   rescue_from StandardError, with: :rescue_standard_error
   rescue_from ActionController::ParameterMissing, with: :rescue_param_missing
