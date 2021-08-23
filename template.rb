@@ -42,6 +42,10 @@ def master?
   ARGV.include? "--master"
 end
 
+def add_sidekiq?
+  @sidekiq_add = ask("Do you want to add sidekiq in your application ?", :limited_to => ["yes", "no"])
+end
+
 def simplified_version
   rails_version.version.split(".").first(2).join('.')
 end
@@ -60,7 +64,9 @@ def add_gems
     gem 'devise'
   end
   gem 'aes-everywhere'
-  gem 'sidekiq', '~> 6.2'
+  if add_sidekiq? == 'yes'
+    gem 'sidekiq', '~> 6.2'
+  end
   gem 'fcm'
 
   # Add labels
@@ -132,7 +138,7 @@ def copy_templates
   directory 'app/assets/stylesheets/admin'
   directory 'app/javascript/packs/admin'
 
-  directory 'config/sidekiq_service'
+  
   directory 'config/routes'
 
   directory 'config/database'
@@ -144,7 +150,12 @@ def copy_templates
   directory 'app/views/admin'
   directory 'app/views/layouts/admin'
 
-  copy_file 'config/initializers/sidekiq.rb'
+  if @sidekiq_add == 'yes'
+    copy_file 'config/initializers/sidekiq.rb'
+    copy_file 'config/sidekiq.yml'
+    directory 'config/sidekiq_service'
+  end
+
   copy_file 'config/initializers/encryption.rb'
   copy_file 'config/initializers/routing_draw.rb'
   copy_file 'config/carrierwave.yml'
@@ -160,27 +171,38 @@ def copy_templates
   insert_into_file 'config/initializers/assets.rb', "Rails.application.config.assets.paths << Rails.root.join('vendor', 'metronic')"
   content = <<~RUBY
 
-      config.generators.system_tests = nil
+      \t \tconfig.generators.system_tests = nil
 
-      # Attach specific database if provided
-      if ENV['RAILS_DATABASE_ENV'].present?
-      end
-      config.active_job.queue_adapter = :sidekiq
-      config.time_zone = 'Asia/Manila'
-      config.action_cable.disable_request_forgery_protection = true
+      \t \t# Attach specific database if provided
+      \t \tif ENV['RAILS_DATABASE_ENV'].present?
+      \t \tend
 
-      # ENV configurables
-      config.settings = YAML.load(ERB.new(File.read("\#{Rails.root}/config/configurable.yml")).result).deep_symbolize_keys
+      \t \tconfig.time_zone = 'Asia/Manila'
+      \t \tconfig.action_cable.disable_request_forgery_protection = true
+
+      \t \t# ENV configurables
+      \t \tconfig.settings = YAML.load(ERB.new(File.read("\#{Rails.root}/config/configurable.yml")).result).deep_symbolize_keys
       
-      # ENV Carrierwave
-      config.carrierwave = YAML.load(ERB.new(File.read("\#{Rails.root}/config/carrierwave.yml")).result).deep_symbolize_keys
-      Rails.autoloaders.main.ignore(Rails.root.join('lib/protocol/encrypted_connection.rb'))
+      \t \t# ENV Carrierwave
+      \t \tconfig.carrierwave = YAML.load(ERB.new(File.read("\#{Rails.root}/config/carrierwave.yml")).result).deep_symbolize_keys
+      \t \tRails.autoloaders.main.ignore(Rails.root.join('lib/protocol/encrypted_connection.rb'))
   RUBY
 
   environment 'config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/]', env: 'production'
 
   insert_into_file "config/application.rb", "\n #{content}\n", after: "config.load_defaults #{simplified_version}"
-  insert_into_file "config/application.rb", "\n " << 'self.paths["config/database"] = "config/database/#{ENV["RAILS_DATABASE_ENV"]}.yml" ', after: "if ENV['RAILS_DATABASE_ENV'].present?"
+  insert_into_file "config/application.rb", "\n \t\t" << '  self.paths["config/database"] = "config/database/#{ENV["RAILS_DATABASE_ENV"]}.yml" ', after: "if ENV['RAILS_DATABASE_ENV'].present?"
+  if @sidekiq_add == 'yes'
+    sidekiq_route = <<~RUBY
+      \tauthenticate :administrator do
+        \tmount Sidekiq::Web => '/sidekiq'
+      \tend
+    RUBY
+    insert_into_file "config/application.rb", "\n \t\tconfig.active_job.queue_adapter = :sidekiq \n \t\t", before: "config.time_zone = 'Asia/Manila'"
+    insert_into_file "config/routes/admin.routes.rb","require 'sidekiq/web'\n\n", before: "root to: 'admin/pages#dashboard'"
+    insert_into_file "config/routes/admin.routes.rb","\n#{sidekiq_route}\n",after: "namespace :admin do"
+  end
+
   gsub_file "app/javascript/packs/application.js", /import Turbolinks from "turbolinks"/, '// import Turbolinks from "turbolinks"'
   gsub_file "app/javascript/packs/application.js", /Turbolinks.start()/, '// Turbolinks.start()'
   gsub_file "app/javascript/packs/application.js", /ActiveStorage.start()/, '// ActiveStorage.start()'
