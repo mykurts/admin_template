@@ -136,6 +136,7 @@ def copy_templates
   directory 'config/routes'
 
   directory 'config/database'
+  directory 'lib/protocol'
 
   directory 'app/services'
   directory 'app/controllers/concerns'
@@ -144,6 +145,7 @@ def copy_templates
   directory 'app/views/layouts/admin'
 
   copy_file 'config/initializers/sidekiq.rb'
+  copy_file 'config/initializers/encryption.rb'
   copy_file 'config/initializers/routing_draw.rb'
   copy_file 'config/carrierwave.yml'
   copy_file 'config/configurable.yml'
