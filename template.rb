@@ -43,7 +43,7 @@ def master?
 end
 
 def add_sidekiq?
-  @sidekiq_add = ask("Do you want to add sidekiq in your application ?", :limited_to => ["yes", "no"])
+  @sidekiq_add = ask("Do you want to add sidekiq in your application?", :limited_to => ["yes", "no"])
 end
 
 def simplified_version
@@ -206,7 +206,7 @@ def copy_templates
   gsub_file "app/javascript/packs/application.js", /import Turbolinks from "turbolinks"/, '// import Turbolinks from "turbolinks"'
   gsub_file "app/javascript/packs/application.js", /Turbolinks.start()/, '// Turbolinks.start()'
   gsub_file "app/javascript/packs/application.js", /ActiveStorage.start()/, '// ActiveStorage.start()'
-
+  gsub_file "app/javascript/packs/application.js", /import \* as ActiveStorage from "@rails\/activestorage"/, '// import * as ActiveStorage from "@rails/activestorage"'
 end
 
 
