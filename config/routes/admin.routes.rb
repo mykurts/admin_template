@@ -1,6 +1,5 @@
-require 'sidekiq/web'
 
-root to: "admin/pages#dashboard"
+root to: 'admin/pages#dashboard'
 
 devise_for :administrators, class_name: "Account::Administrator", path: '', controllers: {
   sessions:   "admin/sessions"
@@ -11,9 +10,5 @@ devise_for :administrators, class_name: "Account::Administrator", path: '', cont
 
 namespace :admin do
   # start writing routes here
-
-  authenticate :administrator do
-    mount Sidekiq::Web => '/sidekiq'
-  end
 
 end
