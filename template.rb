@@ -96,9 +96,9 @@ def add_administrator
   end
 
   content = <<~RUBY
-    def name
-      "\#{self.first_name} \#{self.last_name}"
-    end
+    \tdef name
+        "\#{self.first_name} \#{self.last_name}"
+    \tend
   RUBY
 
   insert_into_file 'app/models/account/administrator.rb',"#{content}", :before => /^end/
