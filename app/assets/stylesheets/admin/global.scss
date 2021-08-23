@@ -1,0 +1,145 @@
+/* Theme Overrides */
+.aside-menu,
+.aside,
+.brand,
+.aside-menu .menu-nav > .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-heading,
+.aside-menu .menu-nav > .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-link,
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link,
+.menu-item.menu-item-open > .menu-link,
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-link,
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link {
+  background-color: #F1B314 !important;
+}
+
+.aside-minimize-hover {
+  .brand-toggle {
+    display: none;
+  }
+}
+
+.aside-menu .menu-nav > .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-link .menu-icon.svg-icon svg [fill],
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link .menu-icon.svg-icon svg [fill] {
+  fill: #333 !important;
+}
+
+.aside-menu .menu-nav > .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-link .menu-text,
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link .menu-text,
+.aside-menu .menu-nav > .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-link .menu-arrow,
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item:not(.menu-item-parent):not(.menu-item-open):not(.menu-item-here):not(.menu-item-active):hover > .menu-link .menu-text,
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link span  {
+  color: #333 !important;
+}
+
+.aside-menu .menu-nav > .menu-item > .menu-link .menu-text,
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-text,
+.menu-item > .menu-link .menu-arrow {
+  color: #ffffff !important;
+}
+
+.aside-minimize:not(.aside-minimize-hover) .brand .brand-logo h2{
+  display: none;
+}
+.btn {
+  &.btn-save-success {
+    color: #ffffff;
+    background-color: #27AE60;
+    border-color: #27AE60;
+  }
+
+  &.btn-save-error {
+    color: #ffffff;
+    background-color: #E74C3C;
+    border-color: #E74C3C;
+  }
+}
+
+@media (max-width: 991.98px){
+  .header-mobile {
+    background-color:#F1B314 !important;
+  }
+}
+
+/*wizard custom styling*/
+.wizard.wizard-2 .wizard-nav .wizard-steps .wizard-step {
+  padding: 1.5rem !important;
+
+  .wizard-label h3{
+    color: #F1B314 !important;
+    font-weight: bold;
+    margin: 0px;
+  }
+
+  svg {
+    &.path-white-default{
+      path {
+        fill: #fff !important;
+      }
+    }
+  }
+}
+
+
+.wizard.wizard-2 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"] {
+  background-color: #F1B314 !important;
+
+  .wizard-label h3{
+    color: #fff !important;
+    font-weight: bold;
+  }
+
+  .wizard-desc{
+    color: #fff !important;
+  }
+
+  svg{
+    circle {
+      fill: #fff;
+    }
+    path {
+      fill: #F1B314;
+    }
+
+    &.path-white-default{
+      rect {
+        fill: #fff !important;
+      }
+      path {
+        fill: #F1B314 !important;
+      }
+    }
+  }
+
+  &::after{
+    border-left-color: #F1B314 !important;
+  }
+}
+
+
+.theme-btn {
+  color: #fff !important;
+  background-color: #F1B314 !important;
+  border-color: #F1B314 !important;
+}
+
+.theme-btn-outline {
+  border-color: #F1B314 !important;
+  color: #F1B314 !important;
+  background-color: #FFF !important;
+}
+
+.theme-text {
+  color: #F1B314 !important;
+}
+
+.dz-image img{
+  width: 100%;
+}
+
+.dropdown {
+  &.form-control-lg {
+    button {
+      height: 43px;
+      line-height: 2 !important;
+    }
+  }
+}

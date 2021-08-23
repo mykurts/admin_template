@@ -1,0 +1,16 @@
+# To use this config export RAILS_DATABASE_ENV=pool
+production:
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  prepared_statements: false
+  advisory_locks: false
+  checkout_timeout: 60
+  port: 25061
+  sslmode: require
+  username: <%= ENV.fetch("RAILS_DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("RAILS_DATABASE_PASSWORD") %>
+  host: <%= ENV.fetch("RAILS_DATABASE_HOST") %>
+  database: production

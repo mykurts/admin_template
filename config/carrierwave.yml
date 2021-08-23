@@ -1,0 +1,17 @@
+# Be sure to restart your server when you modify this file.
+#
+# More info:
+# https://guides.rubyonrails.org/configuring.html#custom-configuration
+#
+# Add this to `config/application.rb`
+#
+# ```ruby
+# config.carrierwave = YAML.load(ERB.new(File.read("#{Rails.root}/config/carrierwave.yml")).result).deep_symbolize_keys
+# ```
+credentials:
+  provider: <%= ENV.fetch("RAILS_CARRIERWAVE_FOG_PROVIDER") { nil } %>
+  aws_access_key_id: <%= ENV.fetch("RAILS_CARRIERWAVE_FOG_AWS_ACCESS_KEY_ID") { nil } %>
+  aws_secret_access_key: <%= ENV.fetch("RAILS_CARRIERWAVE_FOG_AWS_SECRET_ACCESS_KEY") { nil } %>
+  region: <%= ENV.fetch("RAILS_CARRIERWAVE_FOG_REGION") { nil } %>
+  endpoint: <%= ENV.fetch("RAILS_CARRIERWAVE_FOG_ENDPOINT") { nil } %>
+directory: <%= ENV.fetch("RAILS_CARRIERWAVE_FOG_DIRECTORY") { nil } %>

@@ -1,0 +1,51 @@
+<div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
+
+  <div class="login-aside d-flex align-items-center justify-content-center" style="background-image: url('');  background-color: #F1B314; background-repeat: no-repeat; background-size: cover; max-width: 600px;">
+    <%= image_tag asset_path('admin/login.png'), class: 'login-aside-image mb-5', width: '70%' %>
+  </div>
+
+
+  <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto px-15" style="max-width: 700px;">
+    <div class="d-flex flex-column-fluid flex-center">
+      <div class="login-form login-signin" style="max-width: unset;">
+      <%= form_for Account::Administrator.new, as: :administrator, url: administrator_session_path, html: { class: "form", id: "kt_login_singin_form", action: "" } do |form| %>
+          <div class="pb-13 pt-lg-0 pt-5 text-center">
+            <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome to Admin Template</h3>
+          </div>
+          <%- flash.each do |name, msg| -%>
+            <%= content_tag :div, msg, :id => "flash_#{name}", :class => "text-danger" if msg.is_a?(String) && msg.include?('Invalid') %>
+          <%- end -%>
+          <div class="form-group">
+            <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
+            <%= form.text_field :email, autofocus: true, autocomplete: "off", class: "form-control form-control-solid h-auto py-6 px-6 rounded-lg" %>
+          </div>
+          <div class="form-group">
+
+            <div class="d-flex justify-content-between mt-n5">
+              <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
+            </div>
+
+            <div class="input-icon input-icon-right">
+              <%= form.password_field :password, autofocus: true, autocomplete: "off", class: "form-control form-control-solid h-auto py-6 px-6 rounded-lg" %>
+              <span class="cursor-pointer show-password">
+                <i class="fa fa-eye"></i>
+              </span>
+            </div>
+            <div class="d-flex justify-content-between mt-n5">
+              <label class="font-size-h6 font-weight-bolder text-dark pt-5"></label>
+              <a href="javascript:;" class="font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot" style="color: #000;" tabindex="-1">Forgot Password ?</a>
+            </div>
+          </div>
+          <div class="pb-lg-0 pb-5">
+            <%= form.submit "Sign In", class: "btn font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3", style: "background-color: #F1B314;color: #FFF;" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%= content_for :footer do %>
+  <%= javascript_pack_tag 'admin/sessions/new' %>
+<% end %>

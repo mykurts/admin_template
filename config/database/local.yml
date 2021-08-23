@@ -1,0 +1,33 @@
+# To use this config export RAILS_DATABASE_ENV=local
+# Create local user using psql
+#
+# ```bash
+# sudo -u postgres psql -c "CREATE USER techstars WITH SUPERUSER CREATEDB PASSWORD 'techstars';"
+# ```
+#
+# NOTE: Recommended use only on development/staging
+#
+credentials: &credentials
+  username: <%= ENV.fetch("RAILS_DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("RAILS_DATABASE_PASSWORD") %>
+
+default: &default
+  <<: *credentials
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+
+development:
+  <<: *default
+  database: admin_template_development
+
+test:
+  <<: *default
+  database: admin_template_test
+
+production:
+  <<: *default
+  database: admin_template_production

@@ -1,0 +1,52 @@
+# Be sure to restart your server when you modify this file.
+
+# Define public values that are prone to changes when ran on different circumstances/environments
+#
+# These values can be altered safely from env variables and is
+# HIGHLY RECOMMENDED to be altered on env variables to express system's adaptibility
+#
+# Notes:
+# - Document what the env variable does to the system on README.md (highly recommended)
+# - Make sure you ALWAYS have a default value when env variable is omitted (even if its nil or "")
+# - Prefix your env variable with 'RAILS_' to avoid conflict with other env variables
+# - It's also recommended to add a second prefix to shortly categorize its usecase
+#   Example: 'RAILS_CARRIERWAVE_', 'RAILS_DEVISE_', RAILS_MODEL_NAME_', 'RAILS_MODULE_NAME_', 'RAILS_METHOD_NAME_' etc.
+
+# More info:
+# https://guides.rubyonrails.org/configuring.html#custom-configuration
+
+# Add this to `config/application.rb`
+#
+# ```ruby
+# config.settings = YAML.load(ERB.new(File.read("#{Rails.root}/config/configurable.yml")).result).deep_symbolize_keys
+# ```
+
+# Rails.configuration.settings[:slack_notifier]
+slack_notifier:
+  id: <%= ENV.fetch("RAILS_SLACK_NOTIFIER_ID") { "admin-template" } %>
+  sms:
+    enabled: <%= ActiveModel::Type::Boolean.new.cast(ENV['RAILS_SLACK_NOTIFIER_SMS_ENABLED']) || false %>
+    webhook_url: <%= ENV.fetch("RAILS_SLACK_NOTIFIER_SMS_WEBHOOK_URL") { nil } %>
+    channel: <%= ENV.fetch("RAILS_SLACK_NOTIFIER_SMS_CHANNEL") { nil } %>
+
+# Rails.configuration.settings[:firebase]
+firebase:
+  enabled: <%= ActiveModel::Type::Boolean.new.cast(ENV['RAILS_FCM_ENABLED']) || false %>
+  server_key: <%= ENV.fetch("RAILS_FCM_SERVER_KEY") { nil } %>
+  topic: <%= ENV.fetch("RAILS_FCM_SERVER_TOPIC") { 'dev-latestNotifications' } %>
+
+# Rails.configuration.settings[:redis]
+redis:
+  redis_url: <%= ENV.fetch("REDIS_URL") { 'redis://127.0.0.1:6379/3' } %>
+
+# Rails.configuration.settings[:huawei]
+huawei:
+  huawei_client_id: <%= ENV.fetch("HUAWEI_CLIENT_ID") { nil } %>
+  huawei_client_secret: <%= ENV.fetch("HUAWEI_CLIENT_SECRET") { nil } %>
+
+# Protocol::EncryptDecryptInator::Adapter::Rails
+# Rails.configuration.settings[:encryption]
+encryption:
+  enabled: <%= ActiveModel::Type::Boolean.new.cast(ENV['RAILS_ENCRYPTION_ENABLED']) || false %>
+  key: <%= ENV.fetch("RAILS_ENCRYPTION_KEY") { nil } %>
+  channels: <%= (ENV.fetch("RAILS_ENCRYPTION_CHANNELS") { '' }).split(',') %>
