@@ -84,7 +84,7 @@ def add_administrator
  
   generate "devise:install"
 
-  inject_into_file 'config/environments/development.rb',"config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }\n", :before => /^end/
+  inject_into_file 'config/environments/development.rb',"\tconfig.action_mailer.default_url_options = { host: 'localhost', port: 3000 }\n", :before => /^end/
   generate :devise, "account/administrator", "first_name", "last_name"
 
   if Gem::Requirement.new("> 5.2").satisfied_by? rails_version
